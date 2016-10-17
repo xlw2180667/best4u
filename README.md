@@ -2,7 +2,7 @@
 
 
 ##Description
-When you are plan to go out with your friends but don't know where are the best places. Best4U is exactly the iOS
+When you are planning to go out with your friends but don't know where are the best places. Best4U is exactly the iOS
 app for you to find the local interest places. 
 
 ##Feature
