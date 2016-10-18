@@ -9,6 +9,8 @@ app for you to find the local interest places.
 ###Search
 Simply search a interst place or just search something like "cafe" or "library". The app will list all the matched
 result, with name and distance to you. 
+###Sort
+The search result can be sorted, by distance or name.
 ###Map
 Click on the list, the place will be shown on the map, and a thumbnail photo of that place will show on, click on 
 that image, the app will show you the best path to go there. Cool!
