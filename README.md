@@ -23,3 +23,6 @@ places from your location!
 This is only version 1.0. I am keep working on it. The next version will add a page to show the commits of different
 palces, help you have a basic understanding of there. Please stay tuned.
 
+##Download
+Free to download from app store now!
+https://itunes.apple.com/us/app/best4u/id1166340892?ls=1&mt=8
