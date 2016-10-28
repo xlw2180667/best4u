@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zY8-8i-OYV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="zY8-8i-OYV">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
@@ -25,7 +25,7 @@
                                 <rect key="frame" x="0.0" y="136" width="375" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="agn-OE-FF9" id="FvR-Px-DrH">
-                                    <frame key="frameInset" width="375" height="87"/>
+                                    <frame key="frameInset" width="375" height="88"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3kP-MG-PYg">
@@ -59,7 +59,7 @@
                     <toolbarItems>
                         <barButtonItem title="Go" id="wex-zt-LfK">
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="show" identifier="bestforyou" id="nYU-C2-mZ9"/>
+                                <segue destination="SXu-I2-8Lp" kind="show" identifier="bestforyou" id="fOj-Zx-NXf"/>
                             </connections>
                         </barButtonItem>
                     </toolbarItems>
@@ -101,15 +101,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iHB-YH-Ckj">
-                                <frame key="frameInset" width="375" height="667"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iHB-YH-Ckj"/>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jJ2-NV-f9A">
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="GaS-PC-zTN"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="40" id="O2G-3D-CZw"/>
-                                    <constraint firstAttribute="width" constant="40" id="aOw-Rx-FMt"/>
+                                    <constraint firstAttribute="width" constant="40" id="ujn-eg-JRz"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                 <state key="normal" title="✋🏻"/>
@@ -120,25 +115,73 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="jJ2-NV-f9A" secondAttribute="trailing" constant="6" id="D0O-jg-qiW"/>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jJ2-NV-f9A" secondAttribute="bottom" constant="14" id="MYR-pO-jI5"/>
+                            <constraint firstItem="iHB-YH-Ckj" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="3o6-BT-2rq"/>
+                            <constraint firstAttribute="bottom" secondItem="iHB-YH-Ckj" secondAttribute="bottom" id="8Lx-3F-WK5"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="jJ2-NV-f9A" secondAttribute="bottom" constant="14" id="CuN-Vw-dVn"/>
+                            <constraint firstAttribute="trailing" secondItem="iHB-YH-Ckj" secondAttribute="trailing" id="E7T-vE-A6L"/>
+                            <constraint firstItem="iHB-YH-Ckj" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="G0e-AJ-F7N"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jJ2-NV-f9A" secondAttribute="trailing" constant="6" id="hqT-zU-HYd"/>
                         </constraints>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem title="Go" id="JZM-jh-LOy">
-                            <connections>
-                                <action selector="bestPathForYou:" destination="BYZ-38-t0r" id="dHa-9m-ysK"/>
-                            </connections>
-                        </barButtonItem>
-                    </toolbarItems>
+                    <toolbarItems/>
                     <connections>
-                        <outlet property="bestGo" destination="JZM-jh-LOy" id="CtD-cu-qlh"/>
                         <outlet property="mapView" destination="iHB-YH-Ckj" id="Sq1-qM-Uaq"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1328.8" y="-38.23088455772114"/>
+            <point key="canvasLocation" x="1528.8" y="-213.64317841079463"/>
+        </scene>
+        <!--Best For You View Controller-->
+        <scene sceneID="QV7-oD-H5Z">
+            <objects>
+                <viewController id="SXu-I2-8Lp" customClass="BestForYouViewController" customModule="best4U" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yfO-Mw-aj9"/>
+                        <viewControllerLayoutGuide type="bottom" id="mNo-pK-qva"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TPv-M9-wZg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="yCR-yP-N35"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CP9-2P-Qac">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="gpU-zR-RhN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
+                                <state key="normal" title="✋🏻"/>
+                                <connections>
+                                    <action selector="showUserPosition:" destination="SXu-I2-8Lp" eventType="touchUpInside" id="Rgu-nM-SpE"/>
+                                    <action selector="showUserPosition:" destination="BYZ-38-t0r" eventType="touchUpInside" id="W2I-qp-aGg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yCR-yP-N35" firstAttribute="leading" secondItem="TPv-M9-wZg" secondAttribute="leading" id="BUo-hE-eoc"/>
+                            <constraint firstItem="yCR-yP-N35" firstAttribute="top" secondItem="TPv-M9-wZg" secondAttribute="top" id="hJx-FJ-80g"/>
+                            <constraint firstItem="yCR-yP-N35" firstAttribute="bottom" secondItem="mNo-pK-qva" secondAttribute="top" id="j3k-cS-gTL"/>
+                            <constraint firstAttribute="trailing" secondItem="yCR-yP-N35" secondAttribute="trailing" id="mrf-bU-MRh"/>
+                            <constraint firstItem="CP9-2P-Qac" firstAttribute="trailing" secondItem="TPv-M9-wZg" secondAttribute="trailingMargin" id="rci-JW-JSh"/>
+                            <constraint firstItem="mNo-pK-qva" firstAttribute="top" secondItem="CP9-2P-Qac" secondAttribute="bottom" constant="8" symbolic="YES" id="wrd-Ha-NiD"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Go" id="Ki9-OG-aJu">
+                            <connections>
+                                <action selector="bestForYou:" destination="SXu-I2-8Lp" id="ays-ve-JLD"/>
+                            </connections>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <connections>
+                        <outlet property="bestGo" destination="Ki9-OG-aJu" id="kVk-QA-8aS"/>
+                        <outlet property="mapView" destination="yCR-yP-N35" id="FmV-68-2Tm"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gJB-3f-LZq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1528.8" y="464.6176911544228"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JfJ-AL-C0U">
@@ -164,7 +207,4 @@
             <point key="canvasLocation" x="-802.39999999999998" y="-47.226386806596707"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="nYU-C2-mZ9"/>
-    </inferredMetricsTieBreakers>
 </document>

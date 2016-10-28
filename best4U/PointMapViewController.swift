@@ -27,29 +27,6 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
     var pointImage : UIImage?
     var coordinate : CLLocationCoordinate2D?
 
-    // MARK: - Best plan model
-    var firstPointAnnotation : MKAnnotation!
-    var secondPointAnnotation : MKAnnotation!
-    var thirdPointAnnotation : MKAnnotation!
-    var firstPointlatitude : Double!
-    var secondPointlatitude : Double!
-    var thirdPointlatitude : Double!
-    var firstPointlongitude : Double!
-    var secondPointlongitude : Double!
-    var thirdPointlongitude : Double!
-    var firstPointId : String!
-    var secondPointId : String!
-    var thirdPointId : String!
-    var firstPointName : String!
-    var secondPointName : String!
-    var thirdPointName : String!
-    var firstPointDis : String!
-    var secondPointDis : String!
-    var thirdPointDis : String!
-    var firstCoordinate : CLLocationCoordinate2D?
-    var secondCoordinate : CLLocationCoordinate2D?
-    var thirdCoordinate : CLLocationCoordinate2D?
-    var threePoints : [MKAnnotation]?
     
 
     @IBOutlet weak var bestGo: UIBarButtonItem!
@@ -57,12 +34,6 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
         didSet{
             mapView.mapType = .standard
             mapView.delegate = self
-            if self.coordinate != nil {
-            mapView.centerCoordinate = self.coordinate!
-            } else {
-                mapView.centerCoordinate = (locationManager.location?.coordinate)!
-
-            }
         }
     }
 
@@ -81,35 +52,19 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
         }
-        if self.latitude != nil {
 
-            self.coordinate = CLLocationCoordinate2D(latitude:self.latitude,longitude:self.longitude)
-            self.annotation = Point(title: self.pointName,subtitle: self.pointDis,coordinate: self.coordinate!, id: self.id)
-            self.bestGo.isEnabled = false
-            self.getImageURLFromID(id: self.id)
+        self.coordinate = CLLocationCoordinate2D(latitude:self.latitude,longitude:self.longitude)
+        self.annotation = Point(title: self.pointName,subtitle: self.pointDis,coordinate: self.coordinate!, id: self.id)
+        self.getImageURLFromID(id: self.id)
 
-        } else {
-            self.firstCoordinate = CLLocationCoordinate2D(latitude: firstPointlatitude, longitude: firstPointlongitude)
-            self.firstPointAnnotation = Point(title: self.firstPointName, subtitle: "", coordinate: self.firstCoordinate!, id: self.firstPointId!)
-            self.secondCoordinate = CLLocationCoordinate2D(latitude: secondPointlatitude, longitude: secondPointlongitude)
-            self.secondPointAnnotation = Point(title: self.secondPointName, subtitle: "", coordinate: self.secondCoordinate!, id: self.secondPointId!)
-            self.thirdCoordinate = CLLocationCoordinate2D(latitude: thirdPointlatitude, longitude: thirdPointlongitude)
-            self.thirdPointAnnotation = Point(title: self.secondPointName, subtitle: "", coordinate: self.thirdCoordinate!, id: self.thirdPointId)
-            self.threePoints = [self.firstPointAnnotation, self.secondPointAnnotation, self.thirdPointAnnotation]
-            
-        }
         addPointAnnotation()
     }
     
-    //MARK: - MapView and annotations
+    //MARK: - MapView and annotation
     private func addPointAnnotation() {
-        if self.latitude != nil {
-            mapView?.addAnnotation(self.annotation)
-            mapView.showAnnotations([self.annotation], animated: true)
-        } else {
-            mapView.addAnnotations(self.threePoints!)
-            mapView.showAnnotations(self.threePoints!, animated: true)
-        }
+        mapView?.addAnnotation(self.annotation)
+        mapView.showAnnotations([self.annotation], animated: true)
+
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -127,8 +82,6 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
         if self.latitude != nil {
             view.leftCalloutAccessoryView = UIButton(frame: CGRect(x: 0, y: 0, width: 59, height: 59))
         }
-
-
         return view
         }
     
@@ -150,64 +103,26 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.leftCalloutAccessoryView {
-            if self.latitude != nil {
-                directionsDraw(startLocation: self.locationManager.location!, toLocation: CLLocation(latitude: self.latitude, longitude: self.longitude))
-            }
+            drawDirection()
         }
     }
     
-    private func bestDirectionCalculation (location:CLLocation, locations: [CLLocation]) -> CLLocation? {
-        var bestDirection : (distance: CLLocationDistance, coordinates:CLLocation)?
-        for pointLocation in locations {
-            let distance = round(location.distance(from: pointLocation))
-            if bestDirection == nil {
-                bestDirection = (distance, pointLocation)
-            } else {
-                if distance < bestDirection!.distance {
-                    bestDirection = (distance, pointLocation)
-                }
-            }
-        }
-        return bestDirection?.coordinates
-    }
-    var locations : [CLLocation]?
-    private func directionsDraw (startLocation: CLLocation,toLocation:CLLocation) {
-        let startLocationMapItem = MKMapItem(placemark:MKPlacemark(coordinate: startLocation.coordinate, addressDictionary: nil))
-        let toLocationMapItem = MKMapItem(placemark: MKPlacemark(coordinate: toLocation.coordinate, addressDictionary: nil))
+    private func drawDirection () {
+        let startLocationMapItem = MKMapItem(placemark:MKPlacemark(coordinate: (self.locationManager.location?.coordinate)!, addressDictionary: nil))
+        let toLocationMapItem = MKMapItem(placemark: MKPlacemark(coordinate: self.coordinate!, addressDictionary: nil))
         let directionRequest = MKDirectionsRequest()
         directionRequest.transportType = .walking
         directionRequest.source = startLocationMapItem
         directionRequest.destination = toLocationMapItem
-        
-        let directions = MKDirections(request: directionRequest)
-        directions.calculate { (response, error) -> Void in
+        let direction = MKDirections(request: directionRequest)
+        direction.calculate { (response, error) -> Void in
             if let error = error {
                 print("ERROR:\(error.localizedDescription)")
             } else {
                 let route = response!.routes[0] as MKRoute
                 self.mapView.add(route.polyline)
-                if self.locations != nil {
-                    let nextLocation = self.bestDirectionCalculation(location: toLocation, locations: self.locations!)
-                    if let next = nextLocation {
-                        self.directionsDraw(startLocation: toLocation, toLocation: next)
-                    }
-                    self.locations = self.locations?.filter({ $0 != toLocation})
-                }
             }
         }
-        
-    }
-    
-    @IBAction func bestPathForYou(_ sender: AnyObject) {
-        let firstPoint : CLLocation = CLLocation(latitude: firstPointlatitude, longitude: firstPointlongitude)
-        let secondPoint : CLLocation = CLLocation(latitude: secondPointlatitude, longitude: secondPointlongitude)
-        let thirdPoint : CLLocation = CLLocation(latitude: thirdPointlatitude, longitude: thirdPointlongitude)
-        self.locations = [firstPoint,secondPoint,thirdPoint]
-        let nextLocatin = bestDirectionCalculation(location: self.locationManager.location!, locations: self.locations!)
-        if let next = nextLocatin {
-            self.directionsDraw(startLocation: self.locationManager.location!, toLocation: next)
-        }
-        self.bestGo.isEnabled = false
     }
     //MARK: - Fetch image data
     private func getImageURLFromID (id:String){
@@ -239,7 +154,7 @@ class PointMapViewController: UIViewController,MKMapViewDelegate, CLLocationMana
         self.task?.start()
     }
     
-    private func showUser(){
+    public func showUser(){
         let location = locationManager.location
         let center = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))

@@ -39,11 +39,15 @@ class PointsTableViewController: UITableViewController, CLLocationManagerDelegat
         self.locationManager.requestAlwaysAuthorization()
         self.locationManager.requestWhenInUseAuthorization()
         self.navigationController?.navigationBar.tintColor = UIColor.white
-        self.goButton.isEnabled = false
+        self.navigationController?.isToolbarHidden = true
         
         self.refreshControl?.attributedTitle = NSAttributedString(string: "Pull Me!")
         self.refreshControl?.addTarget(self, action:#selector(PointsTableViewController.refresh(sender:)),for: UIControlEvents.valueChanged)
 
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        self.navigationController?.isToolbarHidden = true
     }
     // MARK: - Pull and refresh
     func refresh(sender:AnyObject){
@@ -164,51 +168,22 @@ class PointsTableViewController: UITableViewController, CLLocationManagerDelegat
             }
         }
         if segue.identifier == "bestforyou" {
-            if tableView.indexPathsForSelectedRows?.count == 3 {
-                if let destination = segue.destination as? PointMapViewController {
+            if tableView.indexPathsForSelectedRows != nil {
+                if let destination = segue.destination as? BestForYouViewController {
+                    var selectedPoints : [JSONParameters]?
                     if let selectedRows = tableView.indexPathsForSelectedRows {
-                        let firstPointIndexPath = selectedRows[0][1]
-                        let secondPointIndexPath = selectedRows[1][1]
-                        let thirdPointIndexPath = selectedRows[2][1]
-                        let firstPoint = points[firstPointIndexPath]
-                        let secondPoint = points[secondPointIndexPath]
-                        let thirdPoint = points[thirdPointIndexPath]
-                        
-                        
-                        destination.session = self.session
-                        // First point
-                        destination.firstPointId = firstPoint["id"] as? String
-                        destination.firstPointName = firstPoint["name"] as? String
-                        if let firstPointLocation = firstPoint["location"] as? JSONParameters {
-                            if let distance = firstPointLocation["distance"] as? CLLocationDistance {
-                                destination.firstPointDis = distanceFormatter.string(fromDistance: distance)
-                                destination.firstPointlatitude = firstPointLocation["lat"] as! Double
-                                destination.firstPointlongitude = firstPointLocation["lng"] as! Double
+                        for i in 0...(selectedRows.count - 1) {
+                            let selectedPointIndexPath = selectedRows[i][1]
+                            let selectedPoint = points[selectedPointIndexPath]
+                            if selectedPoints == nil {
+                                selectedPoints = [selectedPoint]
+                            } else {
+                                selectedPoints?.append(selectedPoint)
                             }
                         }
-                        // Second point
-                        destination.secondPointId = secondPoint["id"] as? String
-                        destination.secondPointName = secondPoint["name"] as? String
-                        if let secondPointLocation = secondPoint["location"] as? JSONParameters {
-                            if let distance = secondPointLocation["distance"] as? CLLocationDistance {
-                                destination.secondPointDis = distanceFormatter.string(fromDistance: distance)
-                                destination.secondPointlatitude = secondPointLocation["lat"] as! Double
-                                destination.secondPointlongitude = secondPointLocation["lng"] as! Double
-                            }
-                        }
-                        // Third point
-                        destination.thirdPointId = thirdPoint["id"] as? String
-                        destination.thirdPointName = thirdPoint["name"] as? String
-                        if let thirdPointLocation = thirdPoint["location"] as? JSONParameters {
-                            if let distance = thirdPointLocation["distance"] as? CLLocationDistance {
-                                destination.thirdPointDis = distanceFormatter.string(fromDistance: distance)
-                                destination.thirdPointlatitude = thirdPointLocation["lat"] as! Double
-                                destination.thirdPointlongitude = thirdPointLocation["lng"] as! Double
-                            }
-                        }
+                        destination.points = selectedPoints
                     }
                     self.isEditing = !self.isEditing
-                    self.goButton.isEnabled = false
 
                 }
             }
@@ -221,8 +196,8 @@ class PointsTableViewController: UITableViewController, CLLocationManagerDelegat
                 return false
             }
         } else if identifier == "bestforyou" {
-            if tableView.indexPathsForSelectedRows?.count != 3 {
-                let alert = UIAlertController(title: "Oooops", message: "Select 3 points then we can go!", preferredStyle: .alert)
+            if tableView.indexPathsForSelectedRows == nil {
+                let alert = UIAlertController(title: "Oooops", message: "Select some points then we can go!", preferredStyle: .alert)
                 alert.view.tintColor = UIColor.black
                 let OK = UIAlertAction(title:"OK", style: .cancel)
                 alert.addAction(OK)
@@ -307,9 +282,9 @@ class PointsTableViewController: UITableViewController, CLLocationManagerDelegat
     @IBAction func bestPlan(_ sender: UIBarButtonItem) {
         self.isEditing = !self.isEditing
         if self.isEditing {
-            self.goButton.isEnabled = true
+            self.navigationController?.isToolbarHidden = false
         } else {
-            self.goButton.isEnabled = false
+            self.navigationController?.isToolbarHidden = true
         }
     }
 
